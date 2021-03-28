@@ -1,3 +1,5 @@
+package ui.main
+
 import androidx.compose.desktop.DesktopMaterialTheme
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -5,30 +7,29 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ui.classmap.ClassMap
+import ui.classmap.ClassMapBottomBar
 
-fun main() = Window {
+@ExperimentalMaterialApi
+fun main() = Window(size = IntSize(1280, 800)) {
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
     DesktopMaterialTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                TopAppBar(
-                    title = { Text("LevelUp", style = MaterialTheme.typography.h6) },
-                    navigationIcon = {
-                        IconButton({ coroutineScope.launch { scaffoldState.drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, "Menu")
-                        }
-                    })
+                ClassMapBottomBar { coroutineScope.launch { scaffoldState.drawerState.open() } }
             },
             drawerContent = {
                 Box(
@@ -44,7 +45,9 @@ fun main() = Window {
                                 }
                             },
                         elevation = 4.dp
-                    ) { Text("dsfasd") }
+                    ) {
+                        DrawerTab { coroutineScope.launch { scaffoldState.drawerState.close() } }
+                    }
                 }
             },
             drawerBackgroundColor = Color.Transparent,
@@ -52,7 +55,7 @@ fun main() = Window {
             drawerGesturesEnabled = false,
             scaffoldState = scaffoldState
         ) {
-            Box {}
+            ClassMap()
         }
     }
 }

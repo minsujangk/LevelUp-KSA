@@ -18,8 +18,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ui.classmap.ClassMap
-import ui.classmap.ClassMapBottomBar
 
 @ExperimentalMaterialApi
 fun main() = Window(size = IntSize(1280, 800)) {
@@ -29,7 +27,7 @@ fun main() = Window(size = IntSize(1280, 800)) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                ClassMapBottomBar { coroutineScope.launch { scaffoldState.drawerState.open() } }
+                DynamicBottomBar { coroutineScope.launch { scaffoldState.drawerState.open() } }
             },
             drawerContent = {
                 Box(
@@ -55,7 +53,7 @@ fun main() = Window(size = IntSize(1280, 800)) {
             drawerGesturesEnabled = false,
             scaffoldState = scaffoldState
         ) {
-            ClassMap()
+            DynamicContent()
         }
     }
 }
